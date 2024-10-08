@@ -14,6 +14,7 @@ app.use(
     ':method :url :status :res[content-length] - :response-time ms :body-logger'
   )
 );
+app.use(express.static('dist'));
 
 let persons = [
   {
@@ -54,15 +55,13 @@ app.get('/info', (req, res) => {
 app.get('/api/persons/:id', (req, res) => {
   const id = req.params.id;
   const person = persons.find((person) => person.id === id);
-
   if (person) {
     res.json(person);
-  } else {
-    res.status(404).end();
   }
+  res.status(404).end();
 });
 
-app.get('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res) => {
   const id = req.params.id;
   const person = persons.filter((person) => person.id !== id);
 
